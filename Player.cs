@@ -1,17 +1,15 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace CloseTheBox
+﻿namespace CloseTheBox
 {
     internal class Player
     {
         private CountingBox countingBox = new();
         private Dice dice1 = new();
         private Dice dice2 = new();
-        private bool haveAnotherTurn;
+        private bool playerCanTakeAnotherTurn;
 
         public bool DisplayFullGameInfoToConsole { get; set; } = true; 
 
-        public bool HasAnotherTurn()
+        public bool PlayerCanTakeAnotherTurn()
         {
             // we get a rollResult - tuple of two ints representing the Die rolls
             // we need to do the main app logic to update the countingbox as needed
@@ -23,7 +21,7 @@ namespace CloseTheBox
             // if countingbox item Die2 reslult is true then set it to false and set another turn flag to true
             // return anotherturn flag (bool)
 
-            haveAnotherTurn = false;
+            playerCanTakeAnotherTurn = false;
 
             var rollResult = RollTheDie();
 
@@ -31,28 +29,28 @@ namespace CloseTheBox
             if(countingBox.CheckValue(rollAddition))
             {
                 countingBox.CloseNumber(rollAddition);
-                haveAnotherTurn = true;
+                playerCanTakeAnotherTurn = true;
             }else
             {
                 if (countingBox.CheckValue(rollResult.Item1))
                 {
                     countingBox.CloseNumber(rollResult.Item1);
-                    haveAnotherTurn = true;
+                    playerCanTakeAnotherTurn = true;
                 }
                 if (countingBox.CheckValue(rollResult.Item2))
                 {
                     countingBox.CloseNumber(rollResult.Item2);
-                    haveAnotherTurn = true;
+                    playerCanTakeAnotherTurn = true;
                 }
             }
 
             if (DisplayFullGameInfoToConsole)
             {
                 Console.WriteLine($"Dice roll = {rollResult.Item1} and {rollResult.Item2}");
-                DisplayCountingBox();
+                countingBox.DisplayCountingBox();
             }
 
-            return haveAnotherTurn;
+            return playerCanTakeAnotherTurn;
         }
 
         public (int, int) RollTheDie()
@@ -62,16 +60,9 @@ namespace CloseTheBox
             return (diceRoll1, diceRoll2);
         }
 
-        private void DisplayCountingBox()
-        {
-            countingBox.DisplayCountingBox();
-        }
-
         public void PlayAGame()
         {
-            while (HasAnotherTurn())
-            {
-            }
+            while (PlayerCanTakeAnotherTurn()) ;
         }
 
         public int GetFinalCount()

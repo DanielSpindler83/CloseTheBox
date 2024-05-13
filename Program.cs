@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using System.Drawing;
+using System.Globalization;
 
 namespace CloseTheBox
 {
@@ -34,7 +34,7 @@ namespace CloseTheBox
             Console.WriteLine("Time taken: " + timeTaken.ToString(@"m\:ss\.fff"));
 
             Console.WriteLine("Close the box count = " + closeBoxWinCount);
-            Console.WriteLine("Games played = " + gamesToPlay);
+            Console.WriteLine("Games played = " + (gamesToPlay).ToString("N0", new CultureInfo("en-US")));
             double percentageWinCount = Math.Round(((double)closeBoxWinCount / (double)gamesToPlay) * 100, 2);
             Console.WriteLine("Close the box percentage = " + percentageWinCount);
         }
